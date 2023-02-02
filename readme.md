@@ -7,7 +7,7 @@ This repository contains python code and functions for project 3, wine data qual
 **Project Description :**    
 1. This project aims to create a model that will predict wine quality on a scale of 1 to 10, with 10 being the best, based on physiochemical aspects of exisiting Portuguese wines and their numeric data.  
 
-2. The data was obtained from Data.World via UCI on 01 February 2023, downloaded as two .cvs files (one for red wines, one for white wines), combined into a single file, then cleaned, explored, visualised and modelled. According to the original authors of the database, who were at the University of Minho in Portugal, the data comes from red and white wines in the Vinho Verde region of Portugal.  
+2. The data was obtained on 01 February 2023 from Data.World via the author's donation to UCI, downloaded as two .cvs files (one for red wines, one for white wines), combined into a single file, then cleaned, explored, visualised and modelled. According to the original authors of the database, who were at the University of Minho in Portugal, the data comes from red and white wines in the Vinho Verde region of Portugal.  
 
 3. Credit for the data goes to :  
 "P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis.  
@@ -72,26 +72,7 @@ pH                        - a measure of the relative alkilinity vs the relative
                             
 alcohol                   - percentage alcohol by volume in the finished wine  
 
-quality (TARGET)          - rating / score between 0 and 10, with 10 being the best  
-
-
-|Feature|              Definition|
-| :------|:------|
-|fixed_acidity|             - the acids naturally occuring in grapes (tartaric, malic, citric) or produced by yeast during fermentation (succinic)|
-|volatile_acidity|          - measure of the wines gaseous (volatile) acids, the primary one being acetic acid, which is asociated with vinegar ; overall, pronounced volatile acidity is a negative characteristic|
-|citric_acid|               - often added to post-fermentation wine to balance sugar levels and / or to create a sense of vibrancy |
-|rs|                        - residual sugar : the amount of sugar remaining in the wine after fermentation|
-|chlorides|                 - indication of the presence of sodium chloride (salinity) of a wine| 
-|free_s02|                  - sulphur dioxide is an anti-oxidant (preservative) ; free sulphur dioxide is S02 added to the wine that has not reacted with other chemical compounds in the wine ; too much added S02 will produce a sulphury smell in the wine|
-|total_s02|                 - free and bound S02 ; bound S02 has combined with chemical compounds in the wine |
-|density|                   - a description of the viscosity, related to alcohol, sugar, glycerol and other dissolved solids in the wine ;
-                            - related to a wine's mouthfeel ; 
-                            - specifically, 'the mass per unit volume of wine or must at 20°C. It is expressed in grams per milliliter, and denoted by the symbol ρ' (OIV) ; 
-                            - alternately, a measurement of the sugar content of the grapes before fermentation|
-|pH|                        - a measure of the relative alkilinity vs the relative acidity of a wine ; usually between 3 and 4 pH ; typically, a wine with a high level of acidity will have a low pH level|
-|alcohol|                   - percentage alcohol by volume in the finished wine|
-|quality (TARGET)|          - rating / score between 0 and 10, with 10 being the best|
-
+quality (TARGET)          - rating / score for each wine, between 0 and 10, with 10 being the best  
 
 
 
