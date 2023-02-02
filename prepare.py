@@ -34,13 +34,13 @@ warnings.filterwarnings("ignore")
 
 
 
-def train_val_test(df):
+def train_val_test(df, col):
     '''This function takes in a dataframe that has been prepared and splits it into train, val, and test
     sections at 70/18/12 so it can be run through algorithms and tested for accuracy'''
     
     seed = 42
     
-    train, val_test = train_test_split(df, train_size = 0.7, random_state = seed) 
+    train, val_test = train_test_split(df, train_size = 0.7, random_state = seed, stratify = df[col]) 
         
     val, test = train_test_split(val_test, train_size = 0.6, random_state = seed)
     
