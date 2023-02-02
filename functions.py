@@ -16,6 +16,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import TweedieRegressor
 from math import sqrt
 from scipy.stats import pearsonr, spearmanr
+from scipy import stats
 
 from env import get_connection
 import prepare
@@ -43,7 +44,20 @@ def t_test(a, b):
     else:
         print("We reject the null hypothesis as there is a\nsignificant relationship between density and quality of wine.")
 
-    
+        
+def chi_sq(a, b):
+    '''
+    This function will take in two arguments in the for of two discrete variables and runs a chi^2 test
+    to determine if the the two variables are independent of each other and prints the results based on the findings
+    '''
+    result = pd.crosstab(a, b)
+
+    chi2, p, degf, expected = stats.chi2_contingency(result)
+
+    print(f'chi^2  = {chi2:.4f}') 
+
+    print(f'p-value = {p:.4f}')
+        
     
     
 def model_report():
