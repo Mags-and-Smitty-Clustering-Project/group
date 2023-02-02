@@ -21,20 +21,20 @@ This repository contains python code and functions for project 3, wine data qual
 
 **Hypotheses :**
 1.  
-- H_0 : The overall quality of the wine has no relationship to its free sulphur dioxide, total sulphur dioxide & sulphate levels.  
-- H_a : The overall quality of the wine has a relationship to its free sulphur dioxide, total sulphur dioxide & sulphate levels.  
+- H_0 : The overall quality of the wine has no relationship to its free sulphur dioxide and total sulphur dioxide levels.  
+- H_a : The overall quality of the wine has a relationship to its free sulphur dioxide and total sulphur dioxide levels.  
 
 2.  
 - H_0 : The levels of citric acid and residual sugar in the wine have no relationship to its quality.  
 - H_a : The levels of citric acid and residual sugar in the wine have no relationship to its quality.  
 
 3.  
-- H_0 : The levels of fixed acidity and pH in the wine has no relationship to its quality.  
-- H_a : The levels of fixed acidity and pH in the wine has a relationship to its quality.  
+- H_0 : The density of the wine has no relationship to its quality.  
+- H_a : The density of the wine has a relationship to its quality.  
 
 4.  
-- H_0 : The total alcohol level in and the density of the wine have no relationship to its quality.  
-- H_a : The total alcohol level in and the density of the wine have a relationship to its quality.   
+- H_0 : The total residual sugar in and the density of the wine have no relationship to its quality.  
+- H_a : The total residual sugar in and the density of the wine have a relationship to its quality.   
 
 
 
