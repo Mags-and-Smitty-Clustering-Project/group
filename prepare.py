@@ -65,7 +65,6 @@ def MM_scaler(X_train, X_val, X_test):
 
 
 
-
 def scale_splits_rb(train, val, test, 
                     columns_to_scale = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 
                                         'rs', 'chlorides', 'free_s02', 'total_s02', 'density',
