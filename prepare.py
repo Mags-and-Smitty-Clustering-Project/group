@@ -67,8 +67,9 @@ def MM_scaler(X_train, X_val, X_test):
 
 
 def scale_splits_rb(train, val, test, 
-                    columns_to_scale = ['sqft'],
-                    return_scaler = False):
+                    columns_to_scale = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 
+                                        'rs', 'chlorides', 'free_s02', 'total_s02', 'density',
+                                        'pH', 'sulphates', 'alcohol'], return_scaler = False):
     '''
     The purpose of this function is to accept, as input, the 
     train, val, and test data splits, and returns the scaled versions of each.
