@@ -34,7 +34,22 @@ This repository contains python code and functions for project 3, wine data qual
 
 4.  
 - H_0 : The total residual sugar in and the density of the wine have no relationship to its quality.  
-- H_a : The total residual sugar in and the density of the wine have a relationship to its quality.   
+- H_a : The total residual sugar in and the density of the wine have a relationship to its quality.  
+
+
+**Data Dictionary :**
+fixed_acidity  
+volatile_acidity  
+citric_acid  
+rs  
+chlorides  
+free_s02  
+total_s02  
+density  
+pH  
+sulphates  
+alcohol  
+quality (score between 0 and 10)  
 
 
 
