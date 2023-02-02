@@ -51,5 +51,17 @@ sulphates
 alcohol  
 quality (score between 0 and 10)  
 
-
+|Feature|              Definition|
+| :------|:------|
+|bath|                      - tells how many half and full bathrooms in the house|
+|bed|                       - tells how many bedrooms in the house|
+|sqft|                      - tells the total square footage of the house itself|
+|fin_sqft|                  - tells finished square footage of the house itself|
+|fips|                      - tells the county code of the property| 
+|full_bath|                 - tells the amount of full bathrooms only|
+|lotsize|                   - tells the size of the entire property lot in square feet|
+|zipcode|                       - tells what zip code the house is located |
+|rooms|                     - tells how many total rooms there are in the house|
+|yearbuilt|                 - tells you the year the house was built|
+|taxvaluedollarcnt (TARGET)|         - tells you the value of the home|
 
