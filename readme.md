@@ -38,30 +38,96 @@ This repository contains python code and functions for project 3, wine data qual
 
 
 **Data Dictionary :**
-fixed_acidity  
-volatile_acidity  
-citric_acid  
-rs  
-chlorides  
-free_s02  
-total_s02  
-density  
-pH  
-sulphates  
-alcohol  
-quality (score between 0 and 10)  
+
+_Feature                     Definition_
+
+fixed_acidity             - the acids naturally occuring in grapes (tartaric, malic, citric) or produced by yeast during 
+                            fermentation (succinic)  
+
+volatile_acidity          - measure of the wines gaseous (volatile) acids, the primary one being acetic acid, which is 
+                            asociated with vinegar ; overall, pronounced volatile acidity is a negative characteristic  
+                            
+citric_acid               - often added to post-fermentation wine to balance sugar levels and / or to create a sense 
+                            of vibrancy 
+
+rs                        - residual sugar : the amount of sugar remaining in the wine after fermentation   
+
+chlorides                 - indication of the presence of sodium chloride (salinity) of a wine  
+
+free_s02                  - sulphur dioxide is an anti-oxidant (preservative) ; free sulphur dioxide is S02 added to the 
+                            wine that has not reacted with other chemical compounds in the wine ; too much added S02 
+                            will produce a sulphury smell in the wine  
+                            
+total_s02                 - free and bound S02 ; bound S02 has combined with chemical compounds in the wine  
+
+density                   - a description of the viscosity, related to alcohol, sugar, glycerol and other dissolved 
+                            solids in the wine ;  
+                          - related to a wine's mouthfeel ;  
+                          - specifically, 'the mass per unit volume of wine or must at 20°C. It is expressed in grams 
+                            per milliliter, and denoted by the symbol ρ' (OIV) ;  
+                          - alternately, a measurement of the sugar content of the grapes before fermentation
+                          
+pH                        - a measure of the relative alkilinity vs the relative acidity of a wine ; usually between 
+                            3 and 4 pH ; typically, a wine with a high level of acidity will have a low pH level  
+                            
+alcohol                   - percentage alcohol by volume in the finished wine  
+
+quality (TARGET)          - rating / score between 0 and 10, with 10 being the best  
+
 
 |Feature|              Definition|
 | :------|:------|
-|bath|                      - tells how many half and full bathrooms in the house|
-|bed|                       - tells how many bedrooms in the house|
-|sqft|                      - tells the total square footage of the house itself|
-|fin_sqft|                  - tells finished square footage of the house itself|
-|fips|                      - tells the county code of the property| 
-|full_bath|                 - tells the amount of full bathrooms only|
-|lotsize|                   - tells the size of the entire property lot in square feet|
-|zipcode|                       - tells what zip code the house is located |
-|rooms|                     - tells how many total rooms there are in the house|
-|yearbuilt|                 - tells you the year the house was built|
-|taxvaluedollarcnt (TARGET)|         - tells you the value of the home|
+|fixed_acidity|             - the acids naturally occuring in grapes (tartaric, malic, citric) or produced by yeast during fermentation (succinic)|
+|volatile_acidity|          - measure of the wines gaseous (volatile) acids, the primary one being acetic acid, which is asociated with vinegar ; overall, pronounced volatile acidity is a negative characteristic|
+|citric_acid|               - often added to post-fermentation wine to balance sugar levels and / or to create a sense of vibrancy |
+|rs|                        - residual sugar : the amount of sugar remaining in the wine after fermentation|
+|chlorides|                 - indication of the presence of sodium chloride (salinity) of a wine| 
+|free_s02|                  - sulphur dioxide is an anti-oxidant (preservative) ; free sulphur dioxide is S02 added to the wine that has not reacted with other chemical compounds in the wine ; too much added S02 will produce a sulphury smell in the wine|
+|total_s02|                 - free and bound S02 ; bound S02 has combined with chemical compounds in the wine |
+|density|                   - a description of the viscosity, related to alcohol, sugar, glycerol and other dissolved solids in the wine ;
+                            - related to a wine's mouthfeel ; 
+                            - specifically, 'the mass per unit volume of wine or must at 20°C. It is expressed in grams per milliliter, and denoted by the symbol ρ' (OIV) ; 
+                            - alternately, a measurement of the sugar content of the grapes before fermentation|
+|pH|                        - a measure of the relative alkilinity vs the relative acidity of a wine ; usually between 3 and 4 pH ; typically, a wine with a high level of acidity will have a low pH level|
+|alcohol|                   - percentage alcohol by volume in the finished wine|
+|quality (TARGET)|          - rating / score between 0 and 10, with 10 being the best|
 
+
+
+
+**The Process / Project Plan :   
+1. Obtain, explore and analyse wine chemical composition and wine quality data from Data.World, created by University of Minha in Portugal, with 'quality' as the target variable. Do this using simple Python coding.  
+
+2. Analyse features in the tidied data based on (1) the relationship between free and total sulphur dioxide, (2) the levels of citric acid and residual sugar in the wine, (3) the density of the wine and (4) total residual sugar in and the density of the wine. These were analysed against the target variable of wine 'quality'.  
+
+3. Model the data using comparative visualisations in Python (Seaborn and MatPlotLib).  
+
+4. Apply statistical modelling in Python to select data to determine mathematical probability as compared with visual indications.  
+
+5. Run the unsupervised machine learning methodology of clustering on select hypotheses.  
+
+5. Run classification and linear regression models on the data based on earlier findings. Analyse these results.  
+
+6. Provide suggestions and indicate next steps that could be performed. 
+
+
+
+**For Further Exploration :    
+
+
+**For Further Modelling :  
+
+
+**Steps To Reproduce :   
+1. Assure the presence of a Python environment on your computer.
+
+2. Import :  
+- Python libraries pandas, numpy, matplotlib, seaborn and scipy,   
+- The red and white Wine Quality databases from https://data.world/food/wine-quality and save the file locally, and  
+- Pre-existing or self-created data 'acquire' and 'prepare' modules.
+
+3. Tidy the data.
+
+4. Explore using graphs, statistical evaluation, clustering and modelling.
+
+5. Evaluate, analyse and form conclusions and recommendations and indicate next steps.
