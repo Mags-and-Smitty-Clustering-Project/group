@@ -29,6 +29,26 @@ warnings.filterwarnings("ignore")
 
 seed = 23
 
+def density_quality(train):
+    p = sns.stripplot(y = train.density, x = train.quality, data = train, size = 2, jitter = .4, palette = 'magma')
+    sns.boxplot(showmeans=True,
+                meanline=True,
+                meanprops={'color': 'k', 'ls': '-', 'lw': 2},
+                medianprops={'visible': False},
+                whiskerprops={'visible': False},
+                zorder=10,
+                x="quality",
+                y="density",
+                data=train,
+                showfliers=False,
+                showbox=False,
+                showcaps=False,
+                ax=p)
+    plt.ylabel('Density Level', fontdict = { 'fontsize': 15})
+    plt.xlabel('Wine Quality', fontdict = { 'fontsize': 15})
+    plt.title('Does Density Affect Wine Quality', fontdict = { 'fontsize': 20})
+    plt.show()
+
 def t_test(a, b):
     '''
     This function will take in two arguments in the form of a continuous and discrete variable and runs
