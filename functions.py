@@ -147,3 +147,62 @@ def model_report():
             'Validate Predictions': [222972.52, 222972.52, 220216.19]}
     return pd.DataFrame(data)
 
+
+
+
+def density_ols(df):
+
+    # getting mean of target variable
+
+    df['quality'].mean()
+
+    # rounding and setting target variable name
+
+    baseline_preds = round(df['quality'].mean(), 3)
+
+    # create a dataframe
+
+    predictions_df = df[['density', 'quality']]
+
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+
+    predictions_df['baseline_preds'] = baseline_preds
+
+    # our linear regression model
+
+    ols_model = LinearRegression()
+
+    ols_model.fit(df[['density']], df[['quality']])
+
+    # predicting on density after it's been fit
+
+    ols_model.predict(df[['density']])
+
+    # model predictions from above line of codes with 'yhat' as variable name and append it on to df
+    predictions_df['yhat'] = ols_model.predict(df[['density']])
+
+
+    # computing residual of baseline predictions
+
+    predictions_df['baseline_residual'] = predictions_df['quality'] - predictions_df['baseline_preds']
+
+
+    # looking at difference between yhat predictions and actual preds ['quality']
+
+    predictions_df['yhat_res'] = predictions_df['yhat'] - predictions_df['quality']
+
+
+    # finding the RMSE in one step (x = original, y = prediction)
+
+    dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+
+    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
+
+
+    # RMSE of linear regression model
+
+    OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
+
+    print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
+
+
