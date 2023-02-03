@@ -12,6 +12,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.feature_selection import RFE
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LassoLars
+from sklearn.cluster import KMeans
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import TweedieRegressor
 from math import sqrt
@@ -58,10 +59,56 @@ def chi_sq(a, b):
 
     print(f'p-value = {p:.4f}')
         
+
+
+def cluster_sugar_acid(sugar_acid_df):
+    df = sugar_acid_df[['rs', 'citric_acid']]
     
+    kmeans = KMeans(n_clusters= 3)
+
+    kmeans.fit(df)
+
+    kmeans.predict(df)
+    
+    sugar_acid_df['sugar_acid'] = kmeans.predict(df)
+    
+    sns.relplot(y = 'rs', x = 'citric_acid', hue = 'sugar_acid', palette = 'viridis', data = sugar_acid_df)
+    
+    plt.show()   
+        
+        
+        
+        
+def cluster_sulphites(sulphites_df):
+    df = sulphites_df[['free_s02', 'total_s02']]
+    
+    kmeans = KMeans(n_clusters= 3)
+
+    kmeans.fit(df)
+
+    kmeans.predict(df)
+    
+    sulphites_df['sulphites'] = kmeans.predict(df)
+    
+    sns.relplot(y = 'free_s02', x = 'total_s02', hue = 'sulphites', palette='viridis', data=sulphites_df)
+    
+    plt.show()   
+
+    
+def sulphites_compare(train_scaled):
+    c = sns.diverging_palette(300, 10, s = 90)
+    sns.countplot(train_scaled['sulphites'], hue = train_scaled.quality, palette = c, orient = "h")
+    plt.ylabel('Number of Wines')
+    plt.xlabel('Free and Total S02 Groupings')
+    plt.title('Are Free and Total S02 Levels\nGood Indicators of Quality?')
+    labels = ['Low Free\nLow Total S02', 'High Free\nHigh Total S02', 'Low Free\nHigh Total S02']
+    plt.xticks(ticks = (0, 1, 2), labels = labels)
+    plt.show()
+     
     
 def model_report():
     data = {'Model': ['Linear Regression', 'Lasso + Lars', 'Polynomial Regression'],
             'Train Predictions': [221977.25, 221977.25, 220570.62],
             'Validate Predictions': [222972.52, 222972.52, 220216.19]}
     return pd.DataFrame(data)
+
