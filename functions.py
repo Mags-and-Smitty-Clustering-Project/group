@@ -27,6 +27,7 @@ import prepare
 import warnings
 warnings.filterwarnings("ignore")
 
+seed = 23
 
 def t_test(a, b):
     '''
@@ -64,7 +65,7 @@ def chi_sq(a, b):
 def cluster_sugar_acid(sugar_acid_df):
     df = sugar_acid_df[['rs', 'citric_acid']]
     
-    kmeans = KMeans(n_clusters= 3)
+    kmeans = KMeans(n_clusters= 3, random_state = seed)
 
     kmeans.fit(df)
 
@@ -72,17 +73,23 @@ def cluster_sugar_acid(sugar_acid_df):
     
     sugar_acid_df['sugar_acid'] = kmeans.predict(df)
     
-    sns.relplot(y = 'rs', x = 'citric_acid', hue = 'sugar_acid', palette = 'viridis', data = sugar_acid_df)
+    sns.relplot(y = 'rs', x = 'citric_acid', hue = 'sugar_acid', palette = 'Accent', data = sugar_acid_df)
     
     plt.show()   
         
-        
-        
+def sugar_acid_compare(train_scaled):        
+    sns.countplot(train_scaled['sugar_acid'], hue = train_scaled.quality, palette = 'Accent')
+    plt.ylabel('Number of Wines')
+    plt.xlabel('Sugar and Citric Acid Group')
+    plt.title('Are Residual Sugar and\n Citric Acid Related to Quality')
+    labels = ['High Acid\nLow Sugar', 'Medium Acid\nHigh Sugar', 'Low Acid\nLow Sugar']
+    plt.xticks(ticks = (0, 1, 2), labels = labels)
+    plt.show()
         
 def cluster_sulphites(sulphites_df):
     df = sulphites_df[['free_s02', 'total_s02']]
     
-    kmeans = KMeans(n_clusters= 3)
+    kmeans = KMeans(n_clusters= 3, random_state = seed)
 
     kmeans.fit(df)
 
@@ -90,7 +97,7 @@ def cluster_sulphites(sulphites_df):
     
     sulphites_df['sulphites'] = kmeans.predict(df)
     
-    sns.relplot(y = 'free_s02', x = 'total_s02', hue = 'sulphites', palette='viridis', data=sulphites_df)
+    sns.relplot(y = 'free_s02', x = 'total_s02', hue = 'sulphites', palette='Accent', data=sulphites_df)
     
     plt.show()   
 
@@ -105,6 +112,34 @@ def sulphites_compare(train_scaled):
     plt.xticks(ticks = (0, 1, 2), labels = labels)
     plt.show()
      
+        
+def cluster_sug_dens(sug_dens_df):
+    
+    df = sug_dens_df[['rs', 'density']]
+
+    kmeans = KMeans(n_clusters= 3, random_state = seed)
+
+    kmeans.fit(df)
+
+    kmeans.predict(df)
+
+    sug_dens_df['sugar_dens'] = kmeans.predict(df)
+    
+    sns.relplot(y = 'rs', x = 'density', hue='sugar_dens', palette = 'Set1', data = sug_dens_df)
+    
+    plt.show()
+        
+    
+def sugar_dens_compare(train_scaled):
+
+    sns.countplot(train_scaled['sugar_dens'], hue = train_scaled.quality, palette = "Set1")
+    plt.ylabel('Number of Wines')
+    plt.xlabel('Sugar and Density Group')
+    plt.title('Are Residual Sugar and\n Density Related to Quality')
+    labels = ['High Density\nLow Sugar', 'Low Density\nLow Sugar', 'High Density\nHigh Sugar']
+    plt.xticks(ticks = (0, 1, 2), labels = labels)
+    plt.show()    
+    
     
 def model_report():
     data = {'Model': ['Linear Regression', 'Lasso + Lars', 'Polynomial Regression'],
