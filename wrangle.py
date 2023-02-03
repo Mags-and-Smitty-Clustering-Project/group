@@ -80,3 +80,42 @@ def remove_outliers(df, k=2):
         df = df[(df[col]<= a[i]) & (df[col]>= b[i])]
         i+=1
     return df, var_fences
+
+
+def gimme_wine():
+    red = pd.read_csv('winequality-red.csv')
+    white = pd.read_csv('winequality-white.csv')
+
+    red['color'] = 'red'
+   
+    white['color'] = 'white'
+
+    wine = pd.concat([white, red], ignore_index = True)
+
+    # renaming columns
+
+    wine.rename(columns = {'fixed acidity' : 'fixed_acidity', 'volatile acidity' : 'volatile_acidity', 
+                           'citric acid' : 'citric_acid', 'residual sugar': 'rs', 'free sulfur dioxide': 'free_s02',
+                           'total sulfur dioxide' : 'total_s02'}, inplace = True)
+
+    # calling the function 
+
+    wine, var_fences = remove_outliers(wine)
+
+    #Removing the very few super high quality wines and very few super low quality wines
+
+    wine = wine[wine.quality != 9]
+
+    wine = wine[wine.quality != 3]
+
+    # creating dummy column for colour
+
+    dummies = pd.get_dummies(wine[['color']], drop_first = True)
+    
+    wine.drop(columns = ['color'], inplace = True)
+
+    # concatenating dummies to the wine dataframe
+
+    wine = pd.concat([wine, dummies], axis = 1)
+    
+    return wine
