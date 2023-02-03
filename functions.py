@@ -49,6 +49,7 @@ def density_quality(train):
     plt.title('Does Density Affect Wine Quality', fontdict = { 'fontsize': 20})
     plt.show()
 
+    
 def t_test(a, b):
     '''
     This function will take in two arguments in the form of a continuous and discrete variable and runs
@@ -162,6 +163,7 @@ def sulphites_compare(train_scaled):
     plt.xticks(ticks = (0, 1, 2), labels = labels)
     plt.show()
      
+
         
 def cluster_sug_dens(sug_dens_df):
     
@@ -247,8 +249,7 @@ def quality_ols(df, col):
     
     
     
-    
-    
+   
     
 # function for tweedie regresor    
     
@@ -291,7 +292,45 @@ def quality_tweed(df, X_df, y_df, col):
     print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_norm_rmse, 4)}.')
 
     # finding the error cf the baseline
-
     base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
-
     print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')    
+    
+    # looking at difference between yhat predictions and actual preds ['quality']
+    predictions_df['yhat_res'] = predictions_df['yhat'] - predictions_df['quality']
+
+
+    # finding the RMSE in one step (x = original, y = prediction)
+    dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
+
+    # RMSE of linear regression model
+    OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
+    print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
+
+    
+    
+def tts_xy(train, val, test, target):
+    
+    '''
+    This function splits train, val, test into X_train, X_val, X_test
+    (the dataframe of features, exludes the target variable) 
+    and y-train (target variable), etc
+    '''
+
+    X_train = train.drop(columns = [target])
+    y_train = train[target]
+
+
+    X_val = val.drop(columns = [target])
+    y_val = val[target]
+
+
+    X_test = test.drop(columns = [target])
+    y_test = test[target]
+    
+    y_train = pd.DataFrame(y_train)
+    y_val = pd.DataFrame(y_val)
+    y_test = pd.DataFrame(y_test)
+    
+    return X_train, y_train, X_val, y_val, X_test, y_test
+    
