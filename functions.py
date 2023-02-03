@@ -265,14 +265,15 @@ def tweedie_sugar_acid(df, X_df, y_df):
 
     # baseline on mean
     baseline_pred_sca = round(df['quality'].mean(), 3)
+    
     tweedie_sca = TweedieRegressor()
 
     # fit the created object to training dataset
-    tweedie_sca.fit(X_df, y_df)
+    tweedie_sca.fit(X_df[['sugar_acid']], y_df)
     predictions_sca_df = df[['sugar_acid', 'quality']]
 
     # then predict on X_train
-    predictions_sca_df['tweedie_sca'] = tweedie_sca.predict(X_df)
+    predictions_sca_df['tweedie_sca'] = tweedie_sca.predict(X_df[['sugar_acid']])
     predictions_sca_df['baseline_pred_sca'] = baseline_pred_sca
 
 
@@ -303,13 +304,13 @@ def tweedie_density(df, X_df, y_df):
     tweedie_d = TweedieRegressor()
 
     # fit the created object to training dataset
-    tweedie_d.fit(X_df, y_df)
+    tweedie_d.fit(X_df[['density']], y_df)
     
     # predictions dataframe
     predictions_d_df = df[['density', 'quality']]
 
     # then predict on X_train
-    predictions_d_df['tweedie_d'] = tweedie_d.predict(X_df)
+    predictions_d_df['tweedie_d'] = tweedie_d.predict(X_df[['density']])
     predictions_d_df['baseline_pred_d'] = baseline_pred_d
 
     # check the error against the baseline
