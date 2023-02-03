@@ -205,6 +205,60 @@ def density_ols(df):
 
     print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
     
+
+    
+    
+    
+    
+# this function will run an OLS Linear Regression for an entered 'column_name' against 'quality.    
+    
+def quality_ols(df, col):
+    
+    '''
+    this function runs the OLS Linear Regression model for residual the sugar & citric acid
+    cluster on an entered dataframe with the 'column_name', comparing it to 
+    wine quality rating. It returns the RMSE baseline and the OLS RMSE.
+    '''
+    
+    # getting mean of target variable
+    df['quality'].mean()
+
+    # rounding and setting target variable name
+    baseline_preds = round(df['quality'].mean(), 3)
+
+    # create a dataframe
+    predictions_df = df[[col, 'quality']]
+
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+    predictions_df['baseline_preds'] = baseline_preds
+
+    # our linear regression model
+    ols_model = LinearRegression()
+    ols_model.fit(df[[col]], df[['quality']])
+
+    # predicting on density after it's been fit
+    ols_model.predict(df[[col]])
+
+    # model predictions from above line of codes with 'yhat' as variable name and append it on to df
+    predictions_df['yhat'] = ols_model.predict(df[[col]])
+
+    # computing residual of baseline predictions
+    predictions_df['baseline_residual'] = predictions_df['quality'] - predictions_df['baseline_preds']
+
+    # looking at difference between yhat predictions and actual preds ['quality']
+    predictions_df['yhat_res'] = predictions_df['yhat'] - predictions_df['quality']
+
+    # finding the RMSE in one step (x = original, y = prediction)
+    dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
+
+    # RMSE of linear regression model
+    OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
+    print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
+        
+        
+        
+        
     
 def density_tweed(df, X_df, y_df):
     
@@ -243,3 +297,95 @@ def density_tweed(df, X_df, y_df):
     base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
 
     print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')
+    
+    
+    
+    
+    
+    
+    
+def sugar_acid_tweed(df, X_df, y_df):
+    
+    # setting the baseline
+    baseline_preds = round(y_df['quality'].mean(), 3)
+
+    # create a dataframe
+
+    predictions_df = df[['sugar_acid', 'quality']]
+    
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+
+    predictions_df['baseline_preds'] = baseline_preds
+
+    # tweedie
+    tweedie = TweedieRegressor()
+
+    # fit the created object to training dataset
+
+    tweedie.fit(X_df, y_df)
+
+    # then predict on X_train
+
+    predictions_df['tweedie'] = tweedie.predict(X_df)
+
+    predictions_df.head(3)
+
+    # check the error against the baseline
+
+    tweedie_norm_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['tweedie']))
+
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_norm_rmse, 4)}.')
+
+    # finding the error cf the baseline
+
+    base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+
+    print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')  
+    
+    
+    
+# function for tweedie regresor    
+    
+def quality_tweed(df, X_df, y_df, col):
+    
+    '''
+    This function intakes a scaled dataframe, its X_ and y_ dataframes, 
+    and the feature column name. 
+    It returns the Tweedie Regressor RMSE and the baseline RMSE.
+    '''
+    
+    # setting the baseline
+    baseline_preds = round(y_df['quality'].mean(), 3)
+
+    # create a dataframe
+
+    predictions_df = df[[col, 'quality']]
+    
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+
+    predictions_df['baseline_preds'] = baseline_preds
+
+    # tweedie
+    tweedie = TweedieRegressor()
+
+    # fit the created object to training dataset
+
+    tweedie.fit(X_df, y_df)
+
+    # then predict on X_train
+
+    predictions_df['tweedie'] = tweedie.predict(X_df)
+
+    predictions_df.head(3)
+
+    # check the error against the baseline
+
+    tweedie_norm_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['tweedie']))
+
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_norm_rmse, 4)}.')
+
+    # finding the error cf the baseline
+
+    base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+
+    print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')    

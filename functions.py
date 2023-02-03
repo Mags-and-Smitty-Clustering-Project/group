@@ -96,6 +96,33 @@ def cluster_sugar_acid(sugar_acid_df):
     sns.relplot(y = 'rs', x = 'citric_acid', hue = 'sugar_acid', palette = 'Accent', data = sugar_acid_df)
     
     plt.show()   
+    
+    
+    
+    
+# function to add a 'sugar_acid' column to a scaled df
+# df = train_scaled, val_scaled or test_scaled
+
+def sugar_acid_col(df):
+    
+    '''
+    this function will create a column on the scaled dataset 
+    to allow for regression modelling
+    '''
+    
+    df2 = df[['rs', 'citric_acid']]
+    
+    kmeans = KMeans(n_clusters = 3, random_state = seed)
+
+    kmeans.fit(df2)
+
+    kmeans.predict(df2)
+    
+    df['sugar_acid'] = kmeans.predict(df2)
+    
+    return df
+
+
         
 def sugar_acid_compare(train_scaled):        
     sns.countplot(train_scaled['sugar_acid'], hue = train_scaled.quality, palette = 'Accent')
@@ -105,6 +132,9 @@ def sugar_acid_compare(train_scaled):
     labels = ['High Acid\nLow Sugar', 'Medium Acid\nHigh Sugar', 'Low Acid\nLow Sugar']
     plt.xticks(ticks = (0, 1, 2), labels = labels)
     plt.show()
+        
+        
+        
         
 def cluster_sulphites(sulphites_df):
     df = sulphites_df[['free_s02', 'total_s02']]
@@ -170,59 +200,98 @@ def model_report():
 
 
 
-def density_ols(df):
-
+def quality_ols(df, col):
+    
+    '''
+    this function runs the OLS Linear Regression model for residual the sugar & citric acid
+    cluster on an entered dataframe with the feature 'column_name', comparing it to 
+    wine quality rating. It returns the RMSE baseline and the OLS RMSE.
+    '''
+    
     # getting mean of target variable
-
     df['quality'].mean()
 
     # rounding and setting target variable name
-
     baseline_preds = round(df['quality'].mean(), 3)
 
     # create a dataframe
+    predictions_df = df[[col, 'quality']]
 
-    predictions_df = df[['density', 'quality']]
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+    predictions_df['baseline_preds'] = baseline_preds
 
+    # our linear regression model
+    ols_model = LinearRegression()
+    ols_model.fit(df[[col]], df[['quality']])
+
+    # predicting on density after it's been fit
+    ols_model.predict(df[[col]])
+
+    # model predictions from above line of codes with 'yhat' as variable name and append it on to df
+    predictions_df['yhat'] = ols_model.predict(df[[col]])
+
+    # computing residual of baseline predictions
+    predictions_df['baseline_residual'] = predictions_df['quality'] - predictions_df['baseline_preds']
+
+    # looking at difference between yhat predictions and actual preds ['quality']
+    predictions_df['yhat_res'] = predictions_df['yhat'] - predictions_df['quality']
+
+    # finding the RMSE in one step (x = original, y = prediction)
+    dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
+
+    # RMSE of linear regression model
+    OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
+    print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
+
+    
+    
+    
+    
+    
+    
+# function for tweedie regresor    
+    
+def quality_tweed(df, X_df, y_df, col):
+    
+    '''
+    This function intakes a scaled dataframe, its X_ and y_ dataframes, 
+    and the feature 'column_name'. It compares against 'quality'.
+    It returns the Tweedie Regressor RMSE and the baseline RMSE.
+    '''
+    
+    # setting the baseline
+    baseline_preds = round(y_df['quality'].mean(), 3)
+
+    # create a dataframe
+
+    predictions_df = df[[col, 'quality']]
+    
     # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
 
     predictions_df['baseline_preds'] = baseline_preds
 
-    # our linear regression model
+    # tweedie
+    tweedie = TweedieRegressor()
 
-    ols_model = LinearRegression()
+    # fit the created object to training dataset
 
-    ols_model.fit(df[['density']], df[['quality']])
+    tweedie.fit(X_df, y_df)
 
-    # predicting on density after it's been fit
+    # then predict on X_train
 
-    ols_model.predict(df[['density']])
+    predictions_df['tweedie'] = tweedie.predict(X_df)
 
-    # model predictions from above line of codes with 'yhat' as variable name and append it on to df
-    predictions_df['yhat'] = ols_model.predict(df[['density']])
+    predictions_df.head(3)
 
+    # check the error against the baseline
 
-    # computing residual of baseline predictions
+    tweedie_norm_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['tweedie']))
 
-    predictions_df['baseline_residual'] = predictions_df['quality'] - predictions_df['baseline_preds']
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_norm_rmse, 4)}.')
 
+    # finding the error cf the baseline
 
-    # looking at difference between yhat predictions and actual preds ['quality']
+    base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
 
-    predictions_df['yhat_res'] = predictions_df['yhat'] - predictions_df['quality']
-
-
-    # finding the RMSE in one step (x = original, y = prediction)
-
-    dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
-
-    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
-
-
-    # RMSE of linear regression model
-
-    OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
-
-    print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
-
-
+    print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')    
