@@ -29,6 +29,19 @@ warnings.filterwarnings("ignore")
 
 seed = 23
 
+def distributions(wine):
+    num_cols = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 
+                'rs', 'chlorides', 'free_s02', 'total_s02', 'density', 
+                'pH', 'sulphates', 'alcohol', 'quality'] 
+
+    for col in num_cols:
+    
+        plt.hist(wine[col], color = 'purple')
+        plt.title(f'Distribution of {col}')
+        plt.grid()
+        plt.show()
+
+
 def density_quality(train):
     p = sns.stripplot(y = train.density, x = train.quality, data = train, size = 2, jitter = .4, palette = 'magma')
     sns.boxplot(showmeans=True,
@@ -123,7 +136,9 @@ def sugar_acid_col(df):
     
     return df
 
-def add_cols(a, b, c, d):
+def add_cols(z, a, b, c, d):
+    z = sugar_acid_col(z)
+    
     a = sugar_acid_col(a)
 
     b = sugar_acid_col(b)
@@ -132,7 +147,7 @@ def add_cols(a, b, c, d):
 
     d = sugar_acid_col(d)
     
-    return a, b, c, d
+    return z, a, b, c, d
         
 def sugar_acid_compare(train_scaled):        
     sns.countplot(train_scaled['sugar_acid'], hue = train_scaled.quality, palette = 'Accent')
