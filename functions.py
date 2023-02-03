@@ -313,11 +313,11 @@ def tweedie_density(df, X_df, y_df):
     predictions_d_df['baseline_pred_d'] = baseline_pred_d
 
     # check the error against the baseline
-    tweedie_d_rmse = sqrt(mean_squared_error(predictions_sca_df['quality'], predictions_sca_df['tweedie_d']))
+    tweedie_d_rmse = sqrt(mean_squared_error(predictions_d_df['quality'], predictions_d_df['tweedie_d']))
     print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_d_rmse, 4)}.')
 
     # finding the error cf the baseline
-    d_qual_rmse = sqrt(mean_squared_error(predictions_d_df['quality'], predictions_sca_df['baseline_pred_d']))
+    d_qual_rmse = sqrt(mean_squared_error(predictions_d_df['quality'], predictions_d_df['baseline_pred_d']))
     print(f'The RMSE on the baseline of density against wine quality is {round(d_qual_rmse,4)}.')
 
 
