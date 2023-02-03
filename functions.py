@@ -123,7 +123,16 @@ def sugar_acid_col(df):
     
     return df
 
+def add_cols(a, b, c, d):
+    a = sugar_acid_col(a)
 
+    b = sugar_acid_col(b)
+
+    c = sugar_acid_col(c)
+
+    d = sugar_acid_col(d)
+    
+    return a, b, c, d
         
 def sugar_acid_compare(train_scaled):        
     sns.countplot(train_scaled['sugar_acid'], hue = train_scaled.quality, palette = 'Accent')
@@ -240,7 +249,7 @@ def quality_ols(df, col):
 
     # finding the RMSE in one step (x = original, y = prediction)
     dens_qual_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
-    print(f'The RMSE on the baseline of density against wine quality is {round(dens_qual_rmse,4)}.')
+    print(f'The RMSE on the baseline against wine quality is {round(dens_qual_rmse,4)}.')
 
     # RMSE of linear regression model
     OLS_rmse = mean_squared_error(predictions_df['yhat'], predictions_df['quality'], squared = False)
