@@ -252,8 +252,73 @@ def quality_ols(df, col):
    
     
 # function for tweedie regresor    
-    
+ 
+# tweedie regressor function on train + residual sugar & citric acid cluster
 
+def tweedie_sugar_acid(df, X_df, y_df):
+        
+    '''
+    This function intakes a scaled dataframe, and its X_ and y_ dataframes. 
+    It compares against 'quality'.
+    It returns the Tweedie Regressor RMSE and the baseline RMSE.
+    '''
+
+    # baseline on mean
+    baseline_pred_sca = round(df['quality'].mean(), 3)
+    tweedie_sca = TweedieRegressor()
+
+    # fit the created object to training dataset
+    tweedie_sca.fit(X_df, y_df)
+    predictions_sca_df = df[['sugar_acid', 'quality']]
+
+    # then predict on X_train
+    predictions_sca_df['tweedie_sca'] = tweedie_sca.predict(X_df)
+    predictions_sca_df['baseline_pred_sca'] = baseline_pred_sca
+
+
+    # check the error against the baseline
+    tweedie_sca_rmse = sqrt(mean_squared_error(predictions_sca_df['quality'], predictions_sca_df['tweedie_sca']))
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_sca_rmse, 4)}.')
+
+    # finding the error cf the baseline
+    sca_qual_rmse = sqrt(mean_squared_error(predictions_sca_df['quality'], predictions_sca_df['baseline_pred_sca']))
+    print(f'The RMSE on the baseline of sugar & citric acid against wine quality is {round(sca_qual_rmse,4)}.')
+
+
+
+
+    
+def tweedie_density(df, X_df, y_df):
+           
+    '''
+    This function intakes a scaled dataframe, and its X_ and y_ dataframes. 
+    It compares against 'quality'.
+    It returns the Tweedie Regressor RMSE and the baseline RMSE.
+    '''
+
+    # baseline on mean
+    baseline_pred_d = round(df['quality'].mean(), 3)
+    
+    # tweedie regresor
+    tweedie_d = TweedieRegressor()
+
+    # fit the created object to training dataset
+    tweedie_d.fit(X_df, y_df)
+    
+    # predictions dataframe
+    predictions_d_df = df[['density', 'quality']]
+
+    # then predict on X_train
+    predictions_d_df['tweedie_d'] = tweedie_d.predict(X_df)
+    predictions_d_df['baseline_pred_d'] = baseline_pred_d
+
+    # check the error against the baseline
+    tweedie_d_rmse = sqrt(mean_squared_error(predictions_sca_df['quality'], predictions_sca_df['tweedie_d']))
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_d_rmse, 4)}.')
+
+    # finding the error cf the baseline
+    d_qual_rmse = sqrt(mean_squared_error(predictions_d_df['quality'], predictions_sca_df['baseline_pred_d']))
+    print(f'The RMSE on the baseline of density against wine quality is {round(d_qual_rmse,4)}.')
 
 
     
