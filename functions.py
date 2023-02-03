@@ -225,4 +225,65 @@ def density_ols(df):
 
     print(f'The RMSE for the OLS Linear Regression model was {round(OLS_rmse, 4)}.')
 
+def tts_xy(train, val, test, target):
+    
+    '''
+    This function splits train, val, test into X_train, X_val, X_test
+    (the dataframe of features, exludes the target variable) 
+    and y-train (target variable), etc
+    '''
 
+    X_train = train.drop(columns = [target])
+    y_train = train[target]
+
+
+    X_val = val.drop(columns = [target])
+    y_val = val[target]
+
+
+    X_test = test.drop(columns = [target])
+    y_test = test[target]
+    
+    y_train = pd.DataFrame(y_train)
+    y_val = pd.DataFrame(y_val)
+    y_test = pd.DataFrame(y_test)
+    
+    return X_train, y_train, X_val, y_val, X_test, y_test
+    
+def density_tweed(df, X_df, y_df):
+    
+    # setting the baseline
+    baseline_preds = round(y_df['quality'].mean(), 3)
+
+    # create a dataframe
+
+    predictions_df = df[['density', 'quality']]
+    
+    # MAKE NEW COLUMN ON DF FOR BASELINE PREDICTIONS
+
+    predictions_df['baseline_preds'] = baseline_preds
+
+    # tweedie
+    tweedie = TweedieRegressor()
+
+    # fit the created object to training dataset
+
+    tweedie.fit(X_df, y_df)
+
+    # then predict on X_train
+
+    predictions_df['tweedie'] = tweedie.predict(X_df)
+
+    predictions_df.head(3)
+
+    # check the error against the baseline
+
+    tweedie_norm_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['tweedie']))
+
+    print(f'The RMSE for the Tweedie Regressor model was {round(tweedie_norm_rmse, 4)}.')
+
+    # finding the error cf the baseline
+
+    base_rmse = sqrt(mean_squared_error(predictions_df['quality'], predictions_df['baseline_preds']))
+
+    print(f'The RMSE for the baseline prediction was {round(base_rmse, 4)}.')    
