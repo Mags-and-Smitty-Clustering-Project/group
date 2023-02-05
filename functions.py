@@ -19,6 +19,10 @@ from math import sqrt
 from scipy.stats import pearsonr, spearmanr
 from scipy import stats
 
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.ensemble import RandomForestClassifier
+
 from env import get_connection
 import prepare
 
@@ -42,6 +46,14 @@ def distributions(wine):
         plt.show()
 
 
+def show_outliers(df):
+    sns.boxplot(data = df)
+    x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    labels = df.columns
+    plt.xticks(x, labels, rotation = 65)
+    plt.show()        
+        
+        
 def density_quality(train):
     p = sns.stripplot(y = train.density, x = train.quality, data = train, size = 2, jitter = .4, palette = 'magma')
     sns.boxplot(showmeans=True,
@@ -71,7 +83,9 @@ def t_test(a, b):
     '''
     alpha = 0.05
     t, p = stats.ttest_ind(a, b, equal_var=False)
-    print(t, p / 2)
+    print("T-Score is: ", t)
+    print("")
+    print("P-Value is: ", p/2)
     print("")
     if p / 2 > alpha:
         print("We fail to reject $H_{0}$")
@@ -86,6 +100,8 @@ def chi_sq(a, b):
     This function will take in two arguments in the for of two discrete variables and runs a chi^2 test
     to determine if the the two variables are independent of each other and prints the results based on the findings
     '''
+    alpha = 0.05
+    
     result = pd.crosstab(a, b)
 
     chi2, p, degf, expected = stats.chi2_contingency(result)
@@ -93,6 +109,11 @@ def chi_sq(a, b):
     print(f'chi^2  = {chi2:.4f}') 
 
     print(f'p-value = {p:.4f}')
+    
+    if p / 2 > alpha:
+        print("We fail to reject $H_{0}$")
+    else:
+        print("We reject the null hypothesis as there is a\ndependence between the selected feature and quality of wine.")
         
 
 
@@ -212,7 +233,7 @@ def sugar_dens_compare(train_scaled):
     plt.ylabel('Number of Wines')
     plt.xlabel('Sugar and Density Group')
     plt.title('Are Residual Sugar and\n Density Related to Quality')
-    labels = ['High Density\nLow Sugar', 'Low Density\nLow Sugar', 'High Density\nHigh Sugar']
+    labels = ['Low Density\nLow Sugar', 'Med - High Density\nLow Sugar', 'High Density\nHigh Sugar']
     plt.xticks(ticks = (0, 1, 2), labels = labels)
     plt.show()    
     
@@ -372,4 +393,58 @@ def tts_xy(train, val, test, target):
     y_test = pd.DataFrame(y_test)
     
     return X_train, y_train, X_val, y_val, X_test, y_test
+
+    
+    
+def decision_tree(train_scaled, X_train, y_train):
+    
+    '''
+    this function intakes a scaled_df, X_train & y_train and 
+    runs a decision tree on them with a max depth of 11.
+    It outputs the accuracy.
+    '''
+    # setting the baseline for quality to 6
+    quality_baseline = (train_scaled['quality'] == 6).mean()
+    
+    print(f'The baseline of about {round(quality_baseline, 4)} indicates ' + 
+          'the likelihood that a wine will score a 6 for its quality rating.')
+
+    # initialise the Decision Tree Classifier = clf
+    seed = 23
+    clf5 = DecisionTreeClassifier(max_depth = 11, random_state = seed)
+
+    ### fitting the model : 
+    clf5 = clf5.fit(X_train, y_train)
+    
+    # Examining accuracy of Decision Tree Classifier model
+    clf5 = MultiOutputClassifier(clf5, n_jobs = -1)
+    clf5.fit(X_train, y_train)
+
+    # accurcy of the decision tree model
+    print(f'Decision Tree Accuracy, max depth of 5 : {round(clf5.score(X_train, y_train), 4)}')    
+
+def random_forest(X_train, y_train):
+    
+    '''
+    this function intakes X_train & y_train and 
+    runs a random forest on them with a max depth of 11.
+    It outputs the accuracy.
+    '''
+    
+    # setting random forest classifier to 11 branches
+    random = RandomForestClassifier(max_depth = 11, random_state = 23,
+                           max_samples = 0.5)        
+                            # 50pc of all observations will be placed into each random sample
+        
+    # training the random forest on the data
+    random.fit(X_train, y_train)    
+
+    # scoring the accuracy of the training set
+    random.score(X_train, y_train)
+
+    # accurcy of the decision tree model
+    print(f'Random Forest Accuracy, max depth of 11 : {round(random.score(X_train, y_train), 4)}')
+
+
+
     

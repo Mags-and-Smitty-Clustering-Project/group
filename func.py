@@ -359,7 +359,7 @@ def tts_xy(train, val, test, target):
     
     
     
-def decision_trees(train_scaled, X_train, y_train):
+def decision_tree(train_scaled, X_train, y_train):
         '''
         this function intakes a scaled_df, X_train & y_train and 
         runs a decision tree on them with a max depth of 11.
@@ -389,7 +389,7 @@ def decision_trees(train_scaled, X_train, y_train):
 
 
 
-def random_forrest(X_train, y_train):
+def random_forest(X_train, y_train):
     
     '''
     this function intakes X_train & y_train and 
