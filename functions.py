@@ -107,13 +107,13 @@ def chi_sq(a, b):
     chi2, p, degf, expected = stats.chi2_contingency(result)
 
     print(f'chi^2  = {chi2:.4f}') 
-
+    print("")
     print(f'p-value = {p:.4f}')
-    
+    print("")
     if p / 2 > alpha:
         print("We fail to reject $H_{0}$")
     else:
-        print("We reject the null hypothesis as there is a\ndependence between the selected feature and quality of wine.")
+        print("We reject the null hypothesis as there is a dependence \nbetween the selected feature and quality of wine.")
         
 
 
