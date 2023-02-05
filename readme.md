@@ -1,13 +1,13 @@
 This repository contains python code and functions for project 3, wine data quality, at Codeup, San Antonio, Noether data science cohort, February 2023.
 
-**Authors :** Shawn Smith, Magdalena Rahn
+**Authors :** Shawn Smith, Magdalena Rahn  
 
-**Project Title :** _________
+**Project Title :**  Predicting Quality In Vinho Verde  
 
 **Project Description :**    
 1. This project aims to create a model that will predict wine quality on a scale of 1 to 10, with 10 being the best, based on physiochemical aspects of exisiting Portuguese wines and their numeric data.  
 
-2. The data was obtained on 01 February 2023 from Data.World via the author's donation to UCI, downloaded as two .cvs files (one for red wines, one for white wines), combined into a single file, then cleaned, explored, visualised and modelled. According to the original authors of the database, who were at the University of Minho in Portugal, the data comes from red and white wines in the Vinho Verde region of Portugal.  
+2. The data was obtained on 01 February 2023 from Data.World via the author's donation to UCI, downloaded as two .cvs files (one for red wines, one for white wines), combined into a single file, then cleaned, explored, visualised and modelled. According to the original authors of the database, who were at the University of Minho in Portugal, the data comes from red and white wines in the Vinho Verde region of Portugal, 2004 to 2007.  
 
 3. Credit for the data goes to :  
 "P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis.  
@@ -15,11 +15,11 @@ This repository contains python code and functions for project 3, wine data qual
 "In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.  
 
 "Available at: [@Elsevier] http://dx.doi.org/10.1016/j.dss.2009.05.016  
-"[Pre-press (pdf)] http://www3.dsi.uminho.pt/pcortez/winequality09.pdf  
-"[bib] http://www3.dsi.uminho.pt/pcortez/dss09.bib "  
+" [P. Cortez' research] https://pcortez.dsi.uminho.pt/  
+" [article] https://scholar.google.com/citations?view_op=view_citation&hl=en&user=fQ42U-8AAAAJ&citation_for_view=fQ42U-8AAAAJ:d1gkVwhDpl0C "   
 
 
-**Hypotheses :**
+**Hypotheses :**  
 1.  
 - H_0 : The overall quality of the wine has no relationship to its free sulphur dioxide and total sulphur dioxide levels.  
 - H_a : The overall quality of the wine has a relationship to its free sulphur dioxide and total sulphur dioxide levels.  
@@ -37,7 +37,7 @@ This repository contains python code and functions for project 3, wine data qual
 - H_a : The total residual sugar in and the density of the wine have a relationship to its quality.  
 
 
-**Data Dictionary :**
+**Data Dictionary :**  
 
 _Feature                     Definition_
 
@@ -72,7 +72,7 @@ pH                        - a measure of the relative alkilinity vs the relative
                             
 alcohol                   - percentage alcohol by volume in the finished wine  
 
-quality (TARGET)          - rating / score for each wine, between 0 and 10, with 10 being the best  
+quality (target)          - rating / score for each wine, between 0 and 10, with 10 being the best  
 
 
 
@@ -89,26 +89,33 @@ quality (TARGET)          - rating / score for each wine, between 0 and 10, with
 
 5. Run classification and linear regression models on the data based on earlier findings. Analyse these results.  
 
-6. Provide suggestions and indicate next steps that could be performed. 
+6. Provide suggestions and indicate next steps that could be performed.  
 
 
 
-**For Further Exploration :    
+**For Further Exploration :   
+1. Find the closest individually related feature to quality and combine that with every other feature and bounce it off of the quality to pinpoint which feature could indicate what makes the best wines.   
+
+2. Explore the influence of other phytochemical additives to wine in relationship to its quality, specifically sulphates (potassium sulphate).  
+
 
 
 **For Further Modelling :  
+1. Change hyperparameters on the Decision Tree Classifier and Random Forest models, in an attempt to find a model that is less overfit. This by reducing features and / or trialling different numbers of branches.  
+
+2. Model the relationship between sulphates and wine quality.
 
 
 **Steps To Reproduce :   
-1. Assure the presence of a Python environment on your computer.
+1. Assure the presence of a Python environment on your computer.  
 
 2. Import :  
 - Python libraries pandas, numpy, matplotlib, seaborn and scipy,   
 - The red and white Wine Quality databases from https://data.world/food/wine-quality and save the file locally, and  
-- Pre-existing or self-created data 'acquire' and 'prepare' modules.
+- Pre-existing or self-created data 'acquire' and 'prepare' modules.  
 
-3. Tidy the data.
+3. Tidy the data.  
 
-4. Explore using graphs, statistical evaluation, clustering and modelling.
+4. Explore using graphs, statistical evaluation, feature engineering, clustering and modelling.  
 
-5. Evaluate, analyse and form conclusions and recommendations and indicate next steps.
+5. Evaluate, analyse and form conclusions and recommendations and indicate next steps.  
