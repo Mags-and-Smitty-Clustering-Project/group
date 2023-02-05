@@ -421,7 +421,7 @@ def decision_tree(train_scaled, X_train, y_train):
     clf5.fit(X_train, y_train)
 
     # accurcy of the decision tree model
-    print(f'Decision Tree Accuracy, max depth of 5 : {round(clf5.score(X_train, y_train), 4)}')    
+    print(f'Decision Tree Accuracy, max depth of 11 : {round(clf5.score(X_train, y_train), 4)}')    
 
 def random_forest(X_train, y_train):
     
@@ -448,3 +448,32 @@ def random_forest(X_train, y_train):
 
 
     
+# col = column name ; needs to be entered in 'col_name' format.
+# df = train_scaled
+
+def elbow(df, col):
+    
+    # inertia loop
+
+    inertia = []
+    seed = 23
+
+    for i in range (1, 7):
+
+        # clustering increments
+        kmeans = KMeans(n_clusters = i, random_state = seed)
+
+        kmeans.fit(df[[col]])
+
+        # append the inertia
+        inertia.append(kmeans.inertia_)
+        
+        
+    # creating a df for the sugar-citric acid features
+    inertia_sca_df = pd.DataFrame({'n_clusters' : list(range(1,7)),
+                                   'inertia' : inertia})
+
+    # elbow of the number for k
+    sns.relplot(data = inertia_sca_df, x = 'n_clusters', y = 'inertia', kind = 'line')
+    plt.grid()
+    plt.show()
